@@ -209,7 +209,7 @@ input:focus {
   align-items: center;
   overflow: hidden;
   gap: 1rem;
-  padding-bottom: 50px;
+  padding-bottom: 11px;
 }
 
 .video-section-1 div {
@@ -288,14 +288,16 @@ input:focus {
     margin-right: 8px;
     max-width: 300px;
     min-width: 250px;
+    padding-bottom: 20px;
   }
+
 }
 
 @media only screen and (max-width:939px) {
   .participants-section {
     display: none;
   }
-
+   
   .chat-section {
     display: none;
   }
