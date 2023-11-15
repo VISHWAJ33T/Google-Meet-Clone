@@ -22,11 +22,7 @@ var pc; // Declare pc variable outside the block
       "https://rrturnserver.metered.live/api/v1/turn/credentials?apiKey=c6ff3a42c9063dc86cf2e8b90ff6e8c99b33"
     );
     const iceServers = await response.json();
-    configuration.iceServers = [
-      {
-        urls: "stun:stun.stunprotocol.org",
-      },
-    ].concat(iceServers);
+    configuration.iceServers = iceServers.slice(1, 6);
     console.log(configuration);
     pc = new RTCPeerConnection(configuration);
   } catch (error) {
