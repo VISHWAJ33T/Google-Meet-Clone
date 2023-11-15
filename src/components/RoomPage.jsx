@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactPlayer from 'react-player';
 
 var configuration = {};
-let pc; // Declare pc variable outside the block
+var pc; // Declare pc variable outside the block
 
 // for production
 (async () => {
@@ -21,9 +21,8 @@ let pc; // Declare pc variable outside the block
     const response = await fetch("https://rrturnserver.metered.live/api/v1/turn/credentials?apiKey=c6ff3a42c9063dc86cf2e8b90ff6e8c99b33");
     const iceServers = await response.json();
     configuration.iceServers = iceServers;
-
-    pc = new RTCPeerConnection(configuration); // Assign value to pc inside the block
-
+    console.log(configuration)
+    pc = new RTCPeerConnection(configuration);
   } catch (error) {
     console.error("Error fetching TURN server credentials:", error);
   }
