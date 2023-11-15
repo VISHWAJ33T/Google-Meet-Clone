@@ -1,16 +1,16 @@
 import "../styles/RoomPage.css";
 import logo from "../images/logo2.png";
-import micoff from '../images/micoff.png'
+import micoff from "../images/micoff.png";
 import micoon from "../images/micon.png";
-import cameraoff from '../images/cameraoff.png'
+import cameraoff from "../images/cameraoff.png";
 import cameraon from "../images/cameraon.png";
 import screenshare from "../images/screenshare.png";
-import chat from "../images/chat.png"
-import cross from "../images/cross.png"
-import participantimg from "../images/participants.png"
+import chat from "../images/chat.png";
+import cross from "../images/cross.png";
+import participantimg from "../images/participants.png";
 import { UseSocket } from "../context/SocketProvider";
 import { useEffect, useRef, useState } from "react";
-import ReactPlayer from 'react-player';
+import ReactPlayer from "react-player";
 
 var configuration = {};
 var pc; // Declare pc variable outside the block
@@ -18,10 +18,12 @@ var pc; // Declare pc variable outside the block
 // for production
 (async () => {
   try {
-    const response = await fetch("https://rrturnserver.metered.live/api/v1/turn/credentials?apiKey=c6ff3a42c9063dc86cf2e8b90ff6e8c99b33");
+    const response = await fetch(
+      "https://vmeet.metered.live/api/v1/turn/credentials?apiKey=bde4d2d415a2844da297d68e9cc2bdbfd6ba"
+    );
     const iceServers = await response.json();
     configuration.iceServers = iceServers;
-    console.log(configuration)
+    console.log(configuration);
     pc = new RTCPeerConnection(configuration);
   } catch (error) {
     console.error("Error fetching TURN server credentials:", error);
@@ -32,7 +34,7 @@ var pc; // Declare pc variable outside the block
 
 //   configuration
 //   //   {
-//   //   // iceServers: [  for development use 
+//   //   // iceServers: [  for development use
 //   //   //   {
 //   //   //     urls: "stun:stun.stunprotocol.org ",
 //   //   //   },
@@ -42,11 +44,9 @@ var pc; // Declare pc variable outside the block
 // );
 
 export default function RoomPage() {
-
-
   const roomsocket = UseSocket();
   const [participants, setParticipants] = useState([]);
-  const [messageinput, setmessageinput] = useState('');
+  const [messageinput, setmessageinput] = useState("");
   const messageContainer = useRef();
   const [mystream, setmystream] = useState(null);
   const [remoteVideoStream, setRemoteVideoStream] = useState(null);
@@ -56,52 +56,52 @@ export default function RoomPage() {
   const myVideoRef2 = useRef();
 
   const handleclosechat = () => {
-    const closechat = document.querySelector('.show-chat');
-    closechat.style.display = 'none';
+    const closechat = document.querySelector(".show-chat");
+    closechat.style.display = "none";
 
-    const a = document.querySelector('.show-chat');
-    if (a.classList.contains('show-chat')) {
-      a.classList.remove('show-chat');
-      a.classList.add('chat-section');
+    const a = document.querySelector(".show-chat");
+    if (a.classList.contains("show-chat")) {
+      a.classList.remove("show-chat");
+      a.classList.add("chat-section");
     }
-    const b = document.querySelector('.show-chat-section-heading');
-    if (b.classList.contains('show-chat-section-heading')) {
-      b.classList.remove('show-chat-section-heading');
-      b.classList.add('chat-section-heading');
+    const b = document.querySelector(".show-chat-section-heading");
+    if (b.classList.contains("show-chat-section-heading")) {
+      b.classList.remove("show-chat-section-heading");
+      b.classList.add("chat-section-heading");
     }
-    const c = document.querySelector('.show-actual-chat');
-    if (c.classList.contains('show-actual-chat')) {
-      c.classList.remove('show-actual-chat');
-      c.classList.add('actual-chat');
+    const c = document.querySelector(".show-actual-chat");
+    if (c.classList.contains("show-actual-chat")) {
+      c.classList.remove("show-actual-chat");
+      c.classList.add("actual-chat");
     }
-    const d = document.querySelector('.show-actual-chat-2');
-    if (d.classList.contains('show-actual-chat-2')) {
-      d.classList.remove('show-actual-chat-2');
-      d.classList.add('actual-chat-2');
+    const d = document.querySelector(".show-actual-chat-2");
+    if (d.classList.contains("show-actual-chat-2")) {
+      d.classList.remove("show-actual-chat-2");
+      d.classList.add("actual-chat-2");
     }
-    const e = document.querySelector('.show-chat-section-input');
-    if (e.classList.contains('show-chat-section-input')) {
-      e.classList.remove('show-chat-section-input');
-      e.classList.add('chat-section-input');
+    const e = document.querySelector(".show-chat-section-input");
+    if (e.classList.contains("show-chat-section-input")) {
+      e.classList.remove("show-chat-section-input");
+      e.classList.add("chat-section-input");
     }
-    const f = document.querySelector('.show-merainput');
-    if (f.classList.contains('show-merainput')) {
-      f.classList.remove('show-merainput');
-      f.classList.add('merainput');
+    const f = document.querySelector(".show-merainput");
+    if (f.classList.contains("show-merainput")) {
+      f.classList.remove("show-merainput");
+      f.classList.add("merainput");
     }
-    const g = document.querySelector('.show-merabutton');
-    if (g.classList.contains('show-merabutton')) {
-      g.classList.remove('show-merabutton');
-      g.classList.add('merabutton');
+    const g = document.querySelector(".show-merabutton");
+    if (g.classList.contains("show-merabutton")) {
+      g.classList.remove("show-merabutton");
+      g.classList.add("merabutton");
     }
-  }
+  };
   const handleaudio = () => {
     sethandlingaudio((prevState) => !prevState);
     const audioTracks = mystream.getAudioTracks();
     if (audioTracks.length > 0) {
       audioTracks[0].enabled = !audioTracks[0].enabled;
     }
-  }
+  };
 
   const handlecamera = () => {
     sethandlingcamera((prevState) => !prevState);
@@ -109,39 +109,43 @@ export default function RoomPage() {
     if (videoTracks.length > 0) {
       videoTracks[0].enabled = !videoTracks[0].enabled;
     }
-  }
+  };
 
   const handleScreenShare = async () => {
-    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then(screenStream => {
-      const screenTrack = screenStream.getTracks()[0];
+    navigator.mediaDevices
+      .getDisplayMedia({ cursor: true })
+      .then((screenStream) => {
+        const screenTrack = screenStream.getTracks()[0];
 
-      const videoSenders = pc.getSenders().filter(sender => sender.track && sender.track.kind === 'video');
-      if (videoSenders.length > 0) {
-        videoSenders[0].replaceTrack(screenTrack);
-      }
-
-      screenTrack.onended = function () {
+        const videoSenders = pc
+          .getSenders()
+          .filter((sender) => sender.track && sender.track.kind === "video");
         if (videoSenders.length > 0) {
-          videoSenders[0].replaceTrack(mystream.getVideoTracks()[0]);
+          videoSenders[0].replaceTrack(screenTrack);
         }
-      };
-    });
-  }
+
+        screenTrack.onended = function () {
+          if (videoSenders.length > 0) {
+            videoSenders[0].replaceTrack(mystream.getVideoTracks()[0]);
+          }
+        };
+      });
+  };
   const handleSendMessage = () => {
     const message = messageinput;
-    appendMessage(`you: ${message}`, 'right');
+    appendMessage(`you: ${message}`, "right");
     console.log(message);
-    roomsocket.emit('send', message);
-    setmessageinput('');
-  }
+    roomsocket.emit("send", message);
+    setmessageinput("");
+  };
 
   const appendMessage = (message, position) => {
-    const messageElement = document.createElement('div');
+    const messageElement = document.createElement("div");
     messageElement.innerText = message;
-    messageElement.classList.add('message');
+    messageElement.classList.add("message");
     messageElement.classList.add(position);
     messageContainer.current.appendChild(messageElement);
-  }
+  };
 
   const toggleReactPlayerFullScreen = () => {
     const player = myVideoRef.current.getInternalPlayer(); // Get the underlying video element
@@ -157,7 +161,6 @@ export default function RoomPage() {
       }
     }
   };
-
 
   const toggleReactPlayerFullScreen2 = () => {
     const player = myVideoRef2.current.getInternalPlayer(); // Get the underlying video element for the second video
@@ -175,47 +178,47 @@ export default function RoomPage() {
   };
 
   const handleshowchat = () => {
-    const a = document.querySelector('.chat-section');
-    a.style.display = 'block'
-    if (a.classList.contains('chat-section')) {
-      a.classList.remove('chat-section');
-      a.classList.add('show-chat');
+    const a = document.querySelector(".chat-section");
+    a.style.display = "block";
+    if (a.classList.contains("chat-section")) {
+      a.classList.remove("chat-section");
+      a.classList.add("show-chat");
     }
-    const b = document.querySelector('.chat-section-heading');
-    if (b.classList.contains('chat-section-heading')) {
-      b.classList.remove('chat-section-heading');
-      b.classList.add('show-chat-section-heading');
+    const b = document.querySelector(".chat-section-heading");
+    if (b.classList.contains("chat-section-heading")) {
+      b.classList.remove("chat-section-heading");
+      b.classList.add("show-chat-section-heading");
     }
-    const c = document.querySelector('.actual-chat');
-    if (c.classList.contains('actual-chat')) {
-      c.classList.remove('actual-chat');
-      c.classList.add('show-actual-chat');
+    const c = document.querySelector(".actual-chat");
+    if (c.classList.contains("actual-chat")) {
+      c.classList.remove("actual-chat");
+      c.classList.add("show-actual-chat");
     }
-    const d = document.querySelector('.actual-chat-2');
-    if (d.classList.contains('actual-chat-2')) {
-      d.classList.remove('actual-chat-2');
-      d.classList.add('show-actual-chat-2');
+    const d = document.querySelector(".actual-chat-2");
+    if (d.classList.contains("actual-chat-2")) {
+      d.classList.remove("actual-chat-2");
+      d.classList.add("show-actual-chat-2");
     }
-    const e = document.querySelector('.chat-section-input');
-    if (e.classList.contains('chat-section-input')) {
-      e.classList.remove('chat-section-input');
-      e.classList.add('show-chat-section-input');
+    const e = document.querySelector(".chat-section-input");
+    if (e.classList.contains("chat-section-input")) {
+      e.classList.remove("chat-section-input");
+      e.classList.add("show-chat-section-input");
     }
-    const f = document.querySelector('.merainput');
-    if (f.classList.contains('merainput')) {
-      f.classList.remove('merainput');
-      f.classList.add('show-merainput');
+    const f = document.querySelector(".merainput");
+    if (f.classList.contains("merainput")) {
+      f.classList.remove("merainput");
+      f.classList.add("show-merainput");
     }
-    const g = document.querySelector('.merabutton');
-    if (g.classList.contains('merabutton')) {
-      g.classList.remove('merabutton');
-      g.classList.add('show-merabutton');
+    const g = document.querySelector(".merabutton");
+    if (g.classList.contains("merabutton")) {
+      g.classList.remove("merabutton");
+      g.classList.add("show-merabutton");
     }
-  }
+  };
   const handleshowparticipants = () => {
-    const partici = document.querySelector('.show-participants');
-    partici.classList.toggle('show');
-  }
+    const partici = document.querySelector(".show-participants");
+    partici.classList.toggle("show");
+  };
 
   useEffect(() => {
     const handleParticipants = (name) => {
@@ -233,15 +236,15 @@ export default function RoomPage() {
         delete updatedStreams[name];
         return updatedStreams;
       });
-      appendMessage(`${name} left the chat`, 'left');
+      appendMessage(`${name} left the chat`, "left");
     };
 
     const handleMessage = (message, name) => {
       console.log(message);
-      appendMessage(`${name}: ${message}`, 'left');
-    }
+      appendMessage(`${name}: ${message}`, "left");
+    };
 
-    roomsocket.emit('joining-room');
+    roomsocket.emit("joining-room");
     roomsocket.on("join-room", handleParticipants);
     roomsocket.on("recieve", handleMessage);
     roomsocket.on("userleft", handleUserLeft);
@@ -257,7 +260,7 @@ export default function RoomPage() {
     const handleicecandidates = async () => {
       pc.onicecandidate = ({ candidate }) => {
         roomsocket.emit("iceCandidate", { candidate });
-      }
+      };
 
       if (mystream && mystream.getTracks().length > 0) {
         mystream.getTracks().forEach((track) => {
@@ -268,18 +271,23 @@ export default function RoomPage() {
       try {
         await pc.setLocalDescription(await pc.createOffer());
         console.log({ aa: pc.localDescription });
-        roomsocket.emit("localDescription", { description: pc.localDescription });
+        roomsocket.emit("localDescription", {
+          description: pc.localDescription,
+        });
       } catch (err) {
         console.log({ msg: err?.message });
       }
-    }
+    };
     handleicecandidates();
-  }, [mystream, roomsocket])
+  }, [mystream, roomsocket]);
 
   useEffect(() => {
     const handlevideo = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
         setmystream(stream);
       } catch (error) {
         console.error("Error accessing user media:", error);
@@ -302,7 +310,9 @@ export default function RoomPage() {
         roomsocket.emit("iceCandidateReply", { candidate });
       };
       await pc.setLocalDescription(await pc.createAnswer());
-      roomsocket.emit("remoteDescription", { description: pc.localDescription });
+      roomsocket.emit("remoteDescription", {
+        description: pc.localDescription,
+      });
     });
     roomsocket.on("remoteDescription", async ({ description }) => {
       console.log({ description });
@@ -318,9 +328,8 @@ export default function RoomPage() {
       pc.onicecandidate = ({ candidate }) => {
         roomsocket.emit("iceCandidateReply", { candidate });
       };
-
     });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -363,10 +372,21 @@ export default function RoomPage() {
           </div>
           <div className="video-section-2">
             <img src={handlingaudio ? micoon : micoff} onClick={handleaudio} />
-            <img src={handlingcamera ? cameraon : cameraoff} onClick={handlecamera} />
+            <img
+              src={handlingcamera ? cameraon : cameraoff}
+              onClick={handlecamera}
+            />
             <img src={screenshare} onClick={handleScreenShare} />
-            <img src={chat} onClick={handleshowchat} className="video-section-2-img" />
-            <img src={participantimg} onClick={handleshowparticipants} className="video-section-2-img" />
+            <img
+              src={chat}
+              onClick={handleshowchat}
+              className="video-section-2-img"
+            />
+            <img
+              src={participantimg}
+              onClick={handleshowparticipants}
+              className="video-section-2-img"
+            />
           </div>
         </div>
 
@@ -379,16 +399,25 @@ export default function RoomPage() {
             {participants.map((name, index) => (
               <h4 key={index}>{name} joined the chat 🎉 🎉</h4>
             ))}
-            <div className="actual-chat-2" ref={messageContainer}>
-            </div>
+            <div className="actual-chat-2" ref={messageContainer}></div>
           </div>
           <div className="chat-section-input">
-            <input className="merainput" value={messageinput} onChange={(e) => { setmessageinput(e.target.value) }} type="text" name="" placeholder="ENTER YOUR MESSAGE" />
-            <button className="merabutton" onClick={handleSendMessage}>send</button>
+            <input
+              className="merainput"
+              value={messageinput}
+              onChange={(e) => {
+                setmessageinput(e.target.value);
+              }}
+              type="text"
+              name=""
+              placeholder="ENTER YOUR MESSAGE"
+            />
+            <button className="merabutton" onClick={handleSendMessage}>
+              send
+            </button>
           </div>
         </div>
       </div>
-
 
       <div className="show-participants">
         <div className="show-participants-border">
@@ -404,7 +433,6 @@ export default function RoomPage() {
           </div>
         </div>
       </div>
-
 
       {/* <div className="show-chat">
         <div className="show-chat-border">
@@ -425,7 +453,6 @@ export default function RoomPage() {
           </div>
         </div>
       </div> */}
-
     </>
   );
 }
