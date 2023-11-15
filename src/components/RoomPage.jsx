@@ -19,10 +19,10 @@ var pc; // Declare pc variable outside the block
 (async () => {
   try {
     const response = await fetch(
-      "https://vmeet.metered.live/api/v1/turn/credentials?apiKey=bde4d2d415a2844da297d68e9cc2bdbfd6ba"
+      "https://rrturnserver.metered.live/api/v1/turn/credentials?apiKey=c6ff3a42c9063dc86cf2e8b90ff6e8c99b33"
     );
     const iceServers = await response.json();
-    configuration.iceServers = iceServers;
+    configuration.iceServers = iceServers.slice(0, 4);
     console.log(configuration);
     pc = new RTCPeerConnection(configuration);
   } catch (error) {
